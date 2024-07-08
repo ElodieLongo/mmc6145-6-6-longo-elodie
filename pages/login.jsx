@@ -38,7 +38,7 @@ export default function Login(props) {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });

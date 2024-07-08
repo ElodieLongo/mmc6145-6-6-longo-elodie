@@ -46,56 +46,36 @@ export default function Book(props) {
   }, [props.book, bookSearchResults, book, router])
 
   async function addToFavorites() {
-    // TODO: use fetch to call POST /api/book
-    // Be sure to pass book in body (use JSON.stringify)
-    // Be sure to also include the content-type header as application/json
     try {
-      const response = await fetch('/api/book', {
-        method: 'POST',
+      const res = await fetch("/api/book", {
+        method: "POST",
         headers: {
-          'content-type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(book)
       });
-
-
-    // Call router.replace(router.asPath) if you receive a 200 status
-if (response.status === 200) {
-  router.replace(router.asPath);
-} else {
-  const errorText = await response.text();
-  console.error('Failed to add to favorites', errorText);
-}
-} catch (error) {
-console.error('Failed to add to favorites', error);
-}
-}
-
-  async function removeFromFavorites() {
+      if (res.status === 200) router.replace(router.asPath);
+    } catch (err) {
+      console.log(err);
+    }
+  }
     // TODO: use fetch to call DELETE /api/book
     // Be sure to pass {id: <book id>} in body (use JSON.stringify)
     // Be sure to also include the content-type header as application/json
-try {
-  const response = await fetch('/api/book', {
-    method: 'DELETE',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({ id: bookId })
-  });
-
-
-    // Call router.replace(router.asPath) if you receive a 200 status
-    if (response.status === 200) {
-      router.replace(router.asPath);
-    } else {
-      const errorText = await response.text();
-      console.error('Failed to remove from favorites', errorText);
+  async function removeFromFavorites() {
+    try {
+      const res = await fetch("/api/book", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({id: book.id})
+      });
+      if (res.status === 200) router.replace(router.asPath);
+    } catch (err) {
+      console.log(err);
     }
-    } catch (error) {
-    console.error('Failed to remove from favorites', error);
-    }
-    }
+  }
 
   return (
     <>

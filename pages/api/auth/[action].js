@@ -6,24 +6,28 @@ import db from '../../../db'
 // TODO: implement POST /api/auth/login
     // TODO: implement POST /api/auth/logout
     // TODO: implement POST /api/auth/signup
-
 export default withIronSessionApiRoute(
-  function handler(req, res) {
-    if (req.method !== 'POST')
+  async function handler(req, res) {
+    if (req.method === "POST") {
+      const action = req.query.action;
+      switch (action) {
+        case "login":
+          return await login(req, res);
+        case "logout":
+          return await logout(req, res);
+        case "signup":
+          return await signup(req, res);
+        default:
+          return res.status(404).end()
+      }
+    } else {
     return res.status(404).end()
-    switch(req.query.action) {
-      case 'login':
-        return login(req, res)
-      case 'logout':
-        return logout(req, res)
-      case 'signup':
-        return signup(req, res)
-      default:
-        return res.status(404).end()
     }
   },
   sessionOptions
-)
+);
+
+
 
 async function login(req, res) {
   const { username, password } = req.body

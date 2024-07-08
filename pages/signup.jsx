@@ -53,7 +53,7 @@ export default function Signup(props) {
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
